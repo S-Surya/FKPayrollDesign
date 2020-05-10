@@ -29,6 +29,7 @@ public class EmployeesMain
         System.out.println("1 - Display Short Employee Details");
         System.out.println("2 - Add a new Employee");
         System.out.println("3 - Delete an Employee");
+        System.out.println("4 - Post Time card for a suitable Employee");
         System.out.println("0 - Quit");
         //System.out.println("3 - Decrypt a number");
         //System.out.println("4 - Quit");
@@ -37,6 +38,69 @@ public class EmployeesMain
         return selection;    
     }
 	
+	@SuppressWarnings("resource")
+	public static void main(String[] args)
+	{
+		//take input from user
+		int userChoice=0;
+		while( (userChoice=menu())!=0 )
+		{
+			switch(userChoice)
+			{
+				case 0:
+					break;
+					
+				case 1:
+					readJson();
+					break;
+					
+				case 2: 
+					Employee newEmp = Employee.getEmpInstance();
+					employees.add(newEmp);
+					writeJson();
+					readJson();
+					//System.out.println("UPdated db");
+					//System.out.println("Employee added.");
+					break;
+
+				case 3:
+					System.out.println("Enter valid empID : ");
+					Scanner input1 = new Scanner(System.in);
+					int empID = input1.nextInt();
+					deleteEmp(empID);
+					break;
+				case 4:
+					System.out.println("Enter valid empID: ");
+					Scanner input11 = new Scanner(System.in);
+					int empID1 = input11.nextInt();
+					Employee emp = searchByID(empID1);
+					if(emp==null || emp.payableType!=Employee.PayableType.HOURLY)
+						System.out.println("Not a valid EmpID");
+					else
+					{
+						System.out.println("Enter Date in YYYY-MM-DD format: ");
+						Scanner scanner = new Scanner(System.in);
+						LocalDate date = LocalDate.parse(scanner.nextLine());
+						System.out.println("Enter number of hours: ");
+						Integer noOfHours = scanner.nextInt();
+						emp.hp.postTimeCard(empID1, date, noOfHours);
+						System.out.println("\nTime card posted.");
+						System.out.println("All Time cards of "+emp.getName()+" are :");
+						emp.hp.printTimeCards();
+					}		
+					
+					break;
+			}
+		}
+	}
+	
+	private static Employee searchByID(int empID1) {
+		for(Employee e: employees)
+			if(e.getEmpID()==empID1)
+				return e;
+		return null;
+	}
+
 	@SuppressWarnings("unchecked")
 	public static void writeJson()
 	{
@@ -155,39 +219,7 @@ public class EmployeesMain
         
 	}
 
-	public static void main(String[] args)
-	{
-		//take input from user
-		int userChoice=0;
-		while( (userChoice=menu())!=0 )
-		{
-			switch(userChoice)
-			{
-				case 0:
-					break;
-					
-				case 1:
-					readJson();
-					break;
-					
-				case 2: 
-					Employee newEmp = Employee.getEmpInstance();
-					employees.add(newEmp);
-					writeJson();
-					readJson();
-					//System.out.println("UPdated db");
-					//System.out.println("Employee added.");
-					break;
-
-				case 3:
-					System.out.println("Enter valid empID : ");
-					Scanner input1 = new Scanner(System.in);
-					int empID = input1.nextInt();
-					deleteEmp(empID);
-					break;
-			}
-		}
-	}
+	
 
 	private static void deleteEmp(int empID) {
 		//search for empID

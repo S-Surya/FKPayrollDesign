@@ -3,9 +3,6 @@ package src;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import src.Employee.PaymentMethod;
-import src.HourlyEmp.TimeCard;
-
 import java.time.LocalDate;  
 
 public class Employee implements Union
@@ -20,10 +17,16 @@ public class Employee implements Union
 	float commishRate;
 	String empName;
 	
-	int getEmpID()
+	public int getEmpID()
 	{
 		return empID;
 	}
+	
+	public String getName() 
+	{
+		return empName;
+	}
+	
 	protected enum PaymentMethod {MAIL,PAYMASTER,BANK;}
 	PaymentMethod paymentMethod;
 	
@@ -36,15 +39,27 @@ public class Employee implements Union
 		Integer hourlyRate=0;
 		public class TimeCard
 		{
-			
+			LocalDate date;
+			Integer noOfHours;
 		}
 		ArrayList<TimeCard> timeCards = new ArrayList<>();
 		
 		@Override
-		public void postTimeCard(int empID, LocalDate date, int noOfHours) {
-			// TODO Auto-generated method stub
-			
+		public void postTimeCard(int empID, LocalDate date, int noOfHours) 
+		{
+			TimeCard timeCard = new TimeCard();
+			timeCard.date = date;
+			timeCard.noOfHours = noOfHours;
+			timeCards.add(timeCard);
 		}
+
+		@Override
+		public void printTimeCards() {
+			for(TimeCard tc: timeCards)
+				System.out.println(tc.date+ ": " +tc.noOfHours+"hrs");
+		}
+		
+		
 	}
 	
 	class MonthlyPay implements PayableFlat
@@ -67,6 +82,7 @@ public class Employee implements Union
 		Employee newEmp = new Employee();
 		newEmp.empID = Employee.getNextEmpID();
 
+		@SuppressWarnings("resource")
 		Scanner in = new Scanner(System.in);  
 		//empName
         System.out.println("Enter name of Employee: ");  
@@ -141,6 +157,8 @@ public class Employee implements Union
 	public void postCharge(int empID, String desc, int amt) {
 		// TODO Auto-generated method stub
 		
-	}	
+	}
+
+		
 	
 }

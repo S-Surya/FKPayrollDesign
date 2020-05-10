@@ -1,1 +1,1 @@
-[{"employee":{"empID":1,"unionID":0,"empName":"Hrishikesh AJ","hp":{"hourlyRate":1234},"paymentMethod":"MAIL","commishRate":40.0,"payableType":"HOURLY"}},{"employee":{"empID":2,"unionID":0,"mp":{"flatSalary":500000},"empName":"Rishikesh AJ","paymentMethod":"BANK","commishRate":30.0,"payableType":"MONTHLY"}}]
+[{"employee":{"empID":1,"unionID":0,"empName":"Hrihsieksh","hp":{"hourlyRate":500},"paymentMethod":"PAYMASTER","commishRate":30.0,"payableType":"HOURLY"}}]
