@@ -30,7 +30,8 @@ public class EmployeesMain
         System.out.println("3 - Delete an Employee");
         System.out.println("4 - Post Time card for a suitable Employee");
         System.out.println("5 - Post Union Membership for a suitable Employee");
-        System.out.println("6 - Post Union service charge for a union member");
+        System.out.println("6 - Post Union service charge for a union member");;
+        System.out.println("7 - Post Sales Receipt");
         System.out.println("0 - Quit");
         //System.out.println("3 - Decrypt a number");
         //System.out.println("4 - Quit");
@@ -124,6 +125,22 @@ public class EmployeesMain
 						emp6.postCharge(desc, amt, date);
 						System.out.println("\nAll Union Charges for "+emp6.getName()+" are :");
 						emp6.printCharges();
+					}
+					break;
+				case 7:
+					System.out.println("Enter valid empID: ");
+					Scanner input7 = new Scanner(System.in);
+					int empID7 = input7.nextInt();
+					Employee emp7=searchByID(empID7);
+					if(emp7!=null)
+					{
+						System.out.println("Enter amount: ");
+						Integer amt = input7.nextInt();
+						System.out.println("Enter Date in YYYY-MM-DD format: ");
+						LocalDate date = LocalDate.parse(input7.next());
+						emp7.postSalesReciept(amt, date) ;
+						System.out.println("\nAll sales made by "+emp7.getName()+" are :");
+						emp7.printSales();
 					}
 					break;
 			}

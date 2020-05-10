@@ -163,11 +163,24 @@ public class Employee implements Union
 	//store sales if made by emp
 	public class Sale 
 	{
-		int empID;
-		int amt;
+		Integer amt;
 		LocalDate date;
 	}
 	ArrayList<Sale> sales = new ArrayList<>();
+	
+	public void postSalesReciept(int amt, LocalDate date) 
+	{
+		Sale sale = new Sale();
+		sale.amt = amt;
+		sale.date = date;
+		sales.add(sale);
+	}
+	
+	public void printSales()
+	{
+		for(Sale s : sales)
+			System.out.println(s.date+ " " +s.amt);
+	}
 	
 	
 	@Override
