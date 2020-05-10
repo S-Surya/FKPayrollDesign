@@ -16,11 +16,10 @@ public class EmployeesMain
 	private static ArrayList<Employee> employees = new ArrayList<>();
 
 	//Function to display menu and get userinput
-	public static int menu() {
+	public static int menu(Scanner input) {
 
         int selection;
-        @SuppressWarnings("resource")
-		Scanner input = new Scanner(System.in);
+		Scanner inputm = input;
 
         /***************************************************/
 
@@ -30,11 +29,13 @@ public class EmployeesMain
         System.out.println("2 - Add a new Employee");
         System.out.println("3 - Delete an Employee");
         System.out.println("4 - Post Time card for a suitable Employee");
+        System.out.println("5 - Post Union Membership for a suitable Employee");
+        System.out.println("6 - Post Union service charge for a union member");
         System.out.println("0 - Quit");
         //System.out.println("3 - Decrypt a number");
         //System.out.println("4 - Quit");
 
-        selection = input.nextInt();
+        selection = inputm.nextInt();
         return selection;    
     }
 	
@@ -43,7 +44,8 @@ public class EmployeesMain
 	{
 		//take input from user
 		int userChoice=0;
-		while( (userChoice=menu())!=0 )
+		Scanner input = new Scanner(System.in);
+		while((userChoice=menu(input))!=0 )
 		{
 			switch(userChoice)
 			{
@@ -51,7 +53,7 @@ public class EmployeesMain
 					break;
 					
 				case 1:
-					readJson();
+					printRecords();
 					break;
 					
 				case 2: 
@@ -88,7 +90,41 @@ public class EmployeesMain
 						System.out.println("All Time cards of "+emp.getName()+" are :");
 						emp.hp.printTimeCards();
 					}		
-					
+					break;
+				case 5:
+					//Assumption : Employees are already part of union as of startDate(jan01-2020)
+					System.out.println("Enter valid empID: ");
+					Scanner input111 = new Scanner(System.in);
+					int empID11 = input111.nextInt();
+					Employee emp1;
+					if((emp1=searchByID(empID11)).unionID==0)
+					{
+						//assign union ID
+						emp1.unionID=Employee.getNextUnionID();
+						System.out.println("Union Membership Successful.");
+						System.out.println("UnionID: "+emp1.unionID);
+						System.out.println("Enter weekly due rate for "+emp1.getName()+":");
+						emp1.unionDueRate=input111.nextInt();
+						System.out.println("Due Rate set successfully");
+					}
+					break;
+				case 6:
+					System.out.println("Enter valid empID: ");
+					Scanner input1111 = new Scanner(System.in);
+					int empID6 = input1111.nextInt();
+					Employee emp6;
+					if((emp6=searchByID(empID6)).unionID!=0)
+					{
+						System.out.println("Enter service charge puropose:");
+						String desc = input1111.next();
+						System.out.println("Enter amount: ");
+						Integer amt = input1111.nextInt();
+						System.out.println("Enter Date in YYYY-MM-DD format: ");
+						LocalDate date = LocalDate.parse(input1111.next());
+						emp6.postCharge(desc, amt, date);
+						System.out.println("\nAll Union Charges for "+emp6.getName()+" are :");
+						emp6.printCharges();
+					}
 					break;
 			}
 		}
@@ -195,8 +231,8 @@ public class EmployeesMain
         System.out.println("Employee ID: "+empID);
         String empName = (String) employeeObject.get("empName");  
         System.out.println("Employee Name: "+empName);
-        Long unionID = (Long) employeeObject.get("unionID");
-        System.out.println("Union ID: "+unionID);
+        //Long unionID = (Long) employeeObject.get("unionID");
+        //System.out.println("Union ID: "+unionID);
         Double commishRate = (Double) employeeObject.get("commishRate");
         System.out.println("Commision Rate: "+commishRate);
         String paymentMethod = (String) employeeObject.get("paymentMethod");

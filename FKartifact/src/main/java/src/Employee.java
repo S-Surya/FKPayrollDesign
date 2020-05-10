@@ -8,9 +8,10 @@ import java.time.LocalDate;
 public class Employee implements Union
 {
 	final static LocalDate startDate = LocalDate.of(2020,1,1);
-	static int nextID=1;
-	static int getNextEmpID()
-	{  return nextID++;  }
+	static Integer nextID=1, nextUnionID=1;
+	public Integer unionDueRate=0;
+	public static Integer getNextEmpID() {  return nextID++;  }
+	public static Integer getNextUnionID() { return nextUnionID++; }
 
 
 	Integer empID=0, unionID=0;
@@ -64,13 +65,35 @@ public class Employee implements Union
 	
 	class MonthlyPay implements PayableFlat
 	{
-		
 		Integer flatSalary=0; 
 		@Override
 		public int setSalary(int sal) {
 			// TODO Auto-generated method stub
 			return 0;
 		}
+	}
+	
+	class UnionCharge
+	{
+		String service;
+		LocalDate date;
+		Integer amount;
+	}
+	ArrayList<UnionCharge> unionCharges = new ArrayList<>();
+	
+	@Override
+	public void postCharge(String desc, int amt, LocalDate date) {
+		UnionCharge uc = new UnionCharge();
+		uc.service = desc;
+		uc.date = date;
+		uc.amount = amt;
+		unionCharges.add(uc);
+	}
+	
+	public void printCharges()
+	{
+		for(UnionCharge uc : unionCharges)
+			System.out.println(uc.date+ " " +uc.service+" "+uc.amount);
 	}
 	
 	HourlyPay hp = new HourlyPay();
@@ -134,7 +157,6 @@ public class Employee implements Union
         newEmp.commishRate = in.nextFloat();
 
         System.out.println("\n\nNew Employee created: \n");
-
         return newEmp;
 	}
 		
@@ -147,17 +169,15 @@ public class Employee implements Union
 	}
 	ArrayList<Sale> sales = new ArrayList<>();
 	
+	
 	@Override
-	public int postMembership(int empID) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void postCharge(int empID, String desc, int amt) {
-		// TODO Auto-generated method stub
+	public void postMembership(int empID) {
 		
 	}
+
+	
+
+	
 
 		
 	

@@ -1,8 +1,9 @@
 package src;
 
+import java.time.LocalDate;
+
 public interface Union
 {
-	//returns union id
-	public int postMembership(int empID);
-	public void postCharge(int empID, String desc, int amt); //first check if emp is a union member
+	public void postMembership(int empID);
+	public void postCharge(String desc, int amt, LocalDate date); //first check if emp is a union member
 }
