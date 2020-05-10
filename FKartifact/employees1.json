@@ -1,0 +1,1 @@
+[{"employee":{"empID":1,"unionID":0,"empName":"hrishi","hp":{"hourlyRate":123},"paymentMethod":MAIL,"commishRate":123.0,"payableType":HOURLY}},{"employee":{"empID":2,"unionID":0,"mp":{"flatSalary":123455},"empName":"rishike","paymentMethod":PAYMASTER,"commishRate":12.0,"payableType":MONTHLY}}]

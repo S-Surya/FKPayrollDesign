@@ -59,10 +59,10 @@ public class HourlyEmp extends Employee implements PayableHourly,Union
 	}
 	ArrayList<TimeCard> timeCards = new ArrayList<>();
 
-	public HourlyEmp.TimeCard postTimeCard(int empID, LocalDate date, int noOfHours)
+	public void postTimeCard(int empID, LocalDate date, int noOfHours)
 	{
 		//fill in
-		return new TimeCard();
+		
 	}
 
 	public int postMembership(int empID)

@@ -4,7 +4,7 @@ import java.util.*;
 import java.io.*;
 import java.time.LocalDate;  
 
-public class MonthlyEmp extends Employee implements PayableHourly,Union
+public class MonthlyEmp extends Employee implements PayableFlat,Union
 {
 	float flatSalary;
 	//factory method which returns new instace of Monthly Emp
@@ -61,7 +61,13 @@ public class MonthlyEmp extends Employee implements PayableHourly,Union
 	{}
 
 	@Override
+	public int setSalary(int sal) {
+		// TODO Auto-generated method stub
+		return 0;
+	} 
+	
+	@Override
     public String toString() { 
         return String.format("Name: " + empName + "\nEmpID: "+empID); 
-    } 
+    }
 }
