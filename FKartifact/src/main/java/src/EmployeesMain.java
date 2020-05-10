@@ -32,6 +32,7 @@ public class EmployeesMain
         System.out.println("5 - Post Union Membership for a suitable Employee");
         System.out.println("6 - Post Union service charge for a union member");;
         System.out.println("7 - Post Sales Receipt");
+        System.out.println("8 - Calculate Payroll");
         System.out.println("0 - Quit");
         //System.out.println("3 - Decrypt a number");
         //System.out.println("4 - Quit");
@@ -141,6 +142,17 @@ public class EmployeesMain
 						emp7.postSalesReciept(amt, date) ;
 						System.out.println("\nAll sales made by "+emp7.getName()+" are :");
 						emp7.printSales();
+					}
+					break;
+				case 8:
+					for(Employee e : employees)
+					{
+						System.out.println("\n\nPayroll for "+e.getName());
+						System.out.println("-------------------------\n");
+						if(e.payableType==Employee.PayableType.HOURLY)
+							e.hp.calculatePayroll();
+						else if(e.payableType==Employee.PayableType.MONTHLY)
+							e.mp.calculatePayroll();
 					}
 					break;
 			}

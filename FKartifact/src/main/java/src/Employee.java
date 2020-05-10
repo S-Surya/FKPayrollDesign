@@ -60,7 +60,60 @@ public class Employee implements Union
 				System.out.println(tc.date+ ": " +tc.noOfHours+"hrs");
 		}
 		
-		
+		void calculatePayroll()
+		{
+			LocalDate curr = LocalDate.parse("2020-04-03");
+			while(curr.isBefore(LocalDate.now()))
+			{
+				System.out.println("Dues on "+curr);
+				LocalDate prev = curr.minusDays(7);
+				int sal=0,salesTot=0,unionDueTot=0;
+				//calculate and print salary payments
+				for(HourlyPay.TimeCard tc : hp.timeCards)
+				{
+					if(tc.date.isBefore(curr) && tc.date.isAfter(prev))
+					{
+						if(tc.noOfHours>8)
+						{
+							sal+=8*hp.hourlyRate;
+							sal+=(tc.noOfHours-8)*hp.hourlyRate*1.5;
+						}
+						
+						else
+						{
+							sal+=(tc.noOfHours)*hp.hourlyRate;
+						}
+					}
+				}
+				System.out.println("Salary due : "+sal);
+				
+				//add sales
+				for(Sale s: sales)
+				{
+					if(s.date.isBefore(curr) && s.date.isAfter(prev))
+					{
+						salesTot+=(s.amt)*commishRate;
+					}
+				}
+				System.out.println("Sales due : "+salesTot);
+				//subtract union rate and service charges
+				
+				if(unionID!=0)
+				{
+					unionDueTot+=unionDueRate;
+					for(UnionCharge uc : unionCharges)
+					{
+						if(uc.date.isBefore(curr) && uc.date.isAfter(prev))
+							unionDueTot+=uc.amount;
+					}
+				}
+				System.out.println("Union due : "+unionDueTot);
+				int net=sal+salesTot-unionDueTot;
+				System.out.println("Final Payment : "+net);
+				//print final payment
+				curr=curr.plusDays(7);
+			}
+		}
 	}
 	
 	class MonthlyPay implements PayableFlat
@@ -70,6 +123,46 @@ public class Employee implements Union
 		public int setSalary(int sal) {
 			// TODO Auto-generated method stub
 			return 0;
+		}
+		
+		void calculatePayroll()
+		{
+			LocalDate curr=LocalDate.parse("2020-03-31");
+			
+			while(curr.isBefore(LocalDate.now()))
+			{
+				System.out.println("Dues on "+curr);
+				LocalDate prev = curr.withDayOfMonth(1);
+				int sal=mp.flatSalary,salesTot=0,unionDueTot=0;
+				
+				System.out.println("Salary Due : " + sal);
+				
+				//calculate sales
+				for(Sale s: sales)
+				{
+					if(s.date.isBefore(curr) && s.date.isAfter(prev))
+					{
+						salesTot+=(s.amt)*commishRate;
+					}
+				}
+				System.out.println("Sales due : "+salesTot);
+				
+				//calculate union dues
+				if(unionID!=0)
+				{
+					unionDueTot+=unionDueRate*4;
+					for(UnionCharge uc : unionCharges)
+					{
+						if(uc.date.isBefore(curr) && uc.date.isAfter(prev))
+							unionDueTot+=uc.amount;
+					}
+				}
+				System.out.println("Union due : "+unionDueTot);
+				int net=sal+salesTot-unionDueTot;
+				System.out.println("Final Payment : "+net);
+				curr = curr.plusDays(1);
+				curr = curr.withDayOfMonth(curr.lengthOfMonth());
+			}
 		}
 	}
 	
@@ -95,10 +188,35 @@ public class Employee implements Union
 		for(UnionCharge uc : unionCharges)
 			System.out.println(uc.date+ " " +uc.service+" "+uc.amount);
 	}
+	//store sales if made by emp
+	public class Sale 
+	{
+		Integer amt;
+		LocalDate date;
+	}
+	ArrayList<Sale> sales = new ArrayList<>();
 	
+	public void postSalesReciept(int amt, LocalDate date) 
+	{
+		Sale sale = new Sale();
+		sale.amt = amt;
+		sale.date = date;
+		sales.add(sale);
+	}
+	
+	public void printSales()
+	{
+		for(Sale s : sales)
+			System.out.println(s.date+ " " +s.amt);
+	}
 	HourlyPay hp = new HourlyPay();
 	MonthlyPay mp = new MonthlyPay();
 	
+	//assume start date is 1st March 2020
+	
+	//assume start date is 1st April 2020
+	
+		
 	static Employee getEmpInstance()
 	{
 		//empID
@@ -160,27 +278,7 @@ public class Employee implements Union
         return newEmp;
 	}
 		
-	//store sales if made by emp
-	public class Sale 
-	{
-		Integer amt;
-		LocalDate date;
-	}
-	ArrayList<Sale> sales = new ArrayList<>();
 	
-	public void postSalesReciept(int amt, LocalDate date) 
-	{
-		Sale sale = new Sale();
-		sale.amt = amt;
-		sale.date = date;
-		sales.add(sale);
-	}
-	
-	public void printSales()
-	{
-		for(Sale s : sales)
-			System.out.println(s.date+ " " +s.amt);
-	}
 	
 	
 	@Override
@@ -189,7 +287,6 @@ public class Employee implements Union
 	}
 
 	
-
 	
 
 		
