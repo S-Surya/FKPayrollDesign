@@ -28,7 +28,7 @@ public class Employee implements Union
 		return empName;
 	}
 	
-	protected enum PaymentMethod {MAIL,PAYMASTER,BANK;}
+	protected enum PaymentMethod {MAIL,PAYMASTER,BANK}
 	PaymentMethod paymentMethod;
 	
 	protected enum PayableType {HOURLY,MONTHLY}
@@ -240,12 +240,12 @@ public class Employee implements Union
 	        case 1:
 	    		newEmp.payableType = PayableType.HOURLY;
 	    		System.out.println("Enter hourly Rate in Rupees: ");
-	            newEmp.hp.hourlyRate = (Integer) in.nextInt();
+	            newEmp.hp.hourlyRate = in.nextInt();
 	    		break;
 	    	case 2:
 	    		newEmp.payableType = PayableType.MONTHLY;
 	    		System.out.println("Enter flat salary in Rupees: ");
-	            newEmp.mp.flatSalary = (Integer)in.nextInt();
+	            newEmp.mp.flatSalary = in.nextInt();
 	    		break;
         }
         
